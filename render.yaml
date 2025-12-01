@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: django-react-app
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r backend/requirements.txt
+      curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+      apt-get install -y nodejs
+      cd frontend
+      npm install
+      npm run build
+      cd ..
+      mkdir -p backend/static_build
+      cp -R frontend/build/* backend/static_build/
+      python backend/manage.py collectstatic --noinput
+    startCommand: gunicorn backend.backend.wsgi:application
+    envVars:
+      - key: PYTHONPATH
+        value: backend
+      - key: DJANGO_SETTINGS_MODULE
+        value: backend.settings
+      - key: DISABLE_COLLECTSTATIC
+        value: "0"
