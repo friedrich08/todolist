@@ -1,19 +1,6 @@
-services:
-  - type: web
-    name: django-react
-    env: python
-    buildCommand: |
-      pip install -r requirements.txt
-      cd frontend
-      npm install
-      npm run build
-      cd ..
-      mkdir -p backend/static_build
-      cp -R frontend/build/* backend/static_build/
-      python backend/manage.py collectstatic --noinput
-    startCommand: gunicorn backend.backend.wsgi:application --bind 0.0.0.0:$PORT
-    envVars:
-      - key: PYTHONPATH
-        value: backend
-      - key: DJANGO_SETTINGS_MODULE
-        value: backend.settings
+Django==4.2.7
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+python-dotenv==1.0.0
+gunicorn
+whitenoise==6.6.0
