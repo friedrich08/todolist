@@ -1,12 +1,9 @@
 services:
   - type: web
-    name: django-react-app
+    name: django-react
     env: python
-    plan: free
     buildCommand: |
-      pip install -r backend/requirements.txt
-      curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-      apt-get install -y nodejs
+      pip install -r requirements.txt
       cd frontend
       npm install
       npm run build
@@ -20,5 +17,3 @@ services:
         value: backend
       - key: DJANGO_SETTINGS_MODULE
         value: backend.settings
-      - key: DISABLE_COLLECTSTATIC
-        value: "0"
