@@ -10,8 +10,11 @@ services:
       cd ..
       mkdir -p backend/static_build
       cp -R frontend/build/* backend/static_build/
-      python backend/manage.py collectstatic --noinput
-    startCommand: gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
+      cd backend
+      python manage.py collectstatic --noinput
+    startCommand: |
+      cd /opt/render/project/src
+      gunicorn backend.backend.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: backend.settings
+        value: backend.backend.settings
